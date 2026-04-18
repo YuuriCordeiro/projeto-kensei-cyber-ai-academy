@@ -1,0 +1,11 @@
+.env
+__pycache__/
+.venv/
+venv/
+*.pyc
+.vscode/
+
+# Ignorar artefatos gerados (opcional, remova se quiser guardar os relatórios no Git)
+*.png
+*.json
+relatorio_executivo.md
