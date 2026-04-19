@@ -13,6 +13,7 @@ Nesta aula, exploramos como utilizar o modelo **Gemini 2.5 Flash** para automati
 - **`gemini_integration.py`**: Script inicial de teste para validar a conexão com o Google AI Studio.
 - **`ask_gemini.py`**: Permite fazer perguntas rápidas pelo terminal com tratamento de erros e listagem de modelos disponíveis.
 - **`cyber_chatbot.py`**: Chatbot interativo com histórico de conversa.
+- **`textfix_ai.py`**: Assistente de escrita que utiliza IA para corrigir textos em modos normal, formal e resumo.
     - **Persona**: Tutor especialista em Cibersegurança da Kensei Academy.
     - **Features**: Respostas em *streaming*, interface colorida no terminal e monitoramento de consumo de tokens.
 
