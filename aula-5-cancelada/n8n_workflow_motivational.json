@@ -12,7 +12,7 @@
     {
       "parameters": {
         "method": "POST",
-        "url": "https://generativelanguage.googleapis.com/v1beta/models/gemini-3.1-flash-lite:generateContent?key=AIzaSyB3lQI_01yJOroxC11Z9Bq7MihV1IQMTQ4",
+        "url": "https://generativelanguage.googleapis.com/v1beta/models/gemini-3.1-flash-lite:generateContent?key=AIzaSyB3lQI_01yJOroxC11Z9Bq7MihV1IQMTQ4(API DELETADA)",
         "sendBody": true,
         "contentType": "json",
         "jsonBody": "={\n  \"contents\": [\n    {\n      \"parts\": [\n        {\n          \"text\": \"Gere uma frase motivacional curta, forte e inspiradora para um profissional de tecnologia e cibersegurança.\"\n        }\n      ]\n    }\n  ]\n}"

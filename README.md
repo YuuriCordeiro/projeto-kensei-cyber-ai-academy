@@ -29,6 +29,10 @@ O objetivo deste projeto é fornecer recursos práticos e exemplos de código pa
   - **AI Agent**: Agente com ferramentas de busca e cálculo.
   - **Security Investigation**: Agente para análise de reputação (VirusTotal/URLScan).
 
+- **aula-7/**: Interfaces Modernas com Streamlit
+  - **Primeiro App**: Introdução ao desenvolvimento de dashboards interativos para ferramentas de segurança.
+  - **Interatividade**: Uso de botões, inputs e exibição de dados.
+
 ## Tecnologias
 
 - Python 3
