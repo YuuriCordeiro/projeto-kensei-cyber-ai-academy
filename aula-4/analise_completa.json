@@ -1,0 +1,13 @@
+{
+    "teste.txt": {
+        "resumo": "Esta é uma saudação comum em inglês, usada para desejar um bom início de dia a alguém. A frase transmite um sentimento positivo e educado, estabelecendo um tom amigável para a interação. É um exemplo clássico de comunicação otimista e socialmente aceitável.",
+        "sentimento": "positivo",
+        "palavras_chave": [
+            "good",
+            "morning",
+            "saudação",
+            "dia",
+            "positivo"
+        ]
+    }
+}

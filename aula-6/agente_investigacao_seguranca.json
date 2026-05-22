@@ -1,0 +1,135 @@
+{
+  "nodes": [
+    {
+      "parameters": {
+        "options": {}
+      },
+      "id": "chat-trigger-investigation",
+      "name": "When Chat Message Received",
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        0,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "Você é um analista de segurança (SOC Tier 2) focado em Threat Intelligence. Sua tarefa é investigar IPs, domínios e URLs fornecidos pelo usuário. Use as ferramentas virustotal e urlscan para validar a reputação. Classifique obrigatoriamente como SEGURO, SUSPEITO ou MALICIOSO e forneça uma breve explicação técnica do veredito.",
+        "options": {
+          "systemMessage": "Você é um analista de segurança (SOC Tier 2) focado em Threat Intelligence. Sua tarefa é investigar IPs, domínios e URLs fornecidos pelo usuário. Use as ferramentas virustotal e urlscan para validar a reputação. Classifique obrigatoriamente como SEGURO, SUSPEITO ou MALICIOSO e forneça uma breve explicação técnica do veredito."
+        }
+      },
+      "id": "ai-agent-investigation",
+      "name": "AI Agent",
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.6,
+      "position": [
+        250,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-1.5-flash",
+        "options": {}
+      },
+      "id": "gemini-investigation",
+      "name": "Google Gemini Chat Model",
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        100,
+        250
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "memory-investigation",
+      "name": "Window Buffer Memory",
+      "type": "@n8n/n8n-nodes-langchain.memoryWindowBuffer",
+      "typeVersion": 1.2,
+      "position": [
+        250,
+        250
+      ]
+    },
+    {
+      "parameters": {
+        "name": "virustotal",
+        "description": "Consulta reputação de IP no VirusTotal. Entrada: o endereço IP.",
+        "method": "GET",
+        "url": "=https://www.virustotal.com/api/v3/ip_addresses/{{ $parameter[\"query\"] }}",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "x-apikey",
+              "value": "INSIRA_SUA_CHAVE_VT"
+            }
+          ]
+        }
+      },
+      "id": "vt-tool",
+      "name": "VirusTotal Lookup",
+      "type": "@n8n/n8n-nodes-langchain.toolHttpRequest",
+      "typeVersion": 1.1,
+      "position": [
+        420,
+        250
+      ]
+    },
+    {
+      "parameters": {
+        "name": "urlscan",
+        "description": "Submete URL para análise no URLScan.io. Entrada: a URL.",
+        "method": "POST",
+        "url": "https://urlscan.io/api/v1/scan/",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "API-Key",
+              "value": "INSIRA_SUA_CHAVE_URLSCAN"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "url",
+              "value": "={{ $parameter[\"query\"] }}"
+            }
+          ]
+        }
+      },
+      "id": "urlscan-tool",
+      "name": "URLScan",
+      "type": "@n8n/n8n-nodes-langchain.toolHttpRequest",
+      "typeVersion": 1.1,
+      "position": [
+        580,
+        250
+      ]
+    }
+  ],
+  "connections": {
+    "When Chat Message Received": {
+      "main": [[{ "node": "AI Agent", "type": "main", "index": 0 }]]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [[{ "node": "AI Agent", "type": "ai_languageModel", "index": 0 }]]
+    },
+    "Window Buffer Memory": {
+      "ai_memory": [[{ "node": "AI Agent", "type": "ai_memory", "index": 0 }]]
+    },
+    "VirusTotal Lookup": {
+      "ai_tool": [[{ "node": "AI Agent", "type": "ai_tool", "index": 0 }]]
+    },
+    "URLScan": {
+      "ai_tool": [[{ "node": "AI Agent", "type": "ai_tool", "index": 0 }]]
+    }
+  }
+}

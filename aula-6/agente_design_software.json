@@ -1,0 +1,82 @@
+{
+  "nodes": [
+    {
+      "parameters": {
+        "options": {}
+      },
+      "id": "chat-trigger-design",
+      "name": "When Chat Message Received",
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.1,
+      "position": [0, 0]
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "Você é um especialista em Design de Interiores, Arquitetura e Engenharia de Software/UI-UX. Seu papel é receber ideias brutas de projetos (seja a planta de um cômodo/casa com limitações de espaço e janelas, ou o fluxo de telas de um aplicativo) e transformá-las em um plano técnico estruturado. Detalhe limitações de espaço, melhor aproveitamento de iluminação natural, posicionamento de elementos e, se for software, a hierarquia visual e tipografia recomendada.",
+        "options": {
+          "systemMessage": "Você é um especialista em Design de Interiores, Arquitetura e Engenharia de Software/UI-UX. Seu papel é receber ideias brutas de projetos (seja a planta de um cômodo/casa com limitações de espaço e janelas, ou o fluxo de telas de um aplicativo) e transformá-las em um plano técnico estruturado. Detalhe limitações de espaço, melhor aproveitamento de iluminação natural, posicionamento de elementos e, se for software, a hierarquia visual e tipografia recomendada."
+        }
+      },
+      "id": "agent-design-software",
+      "name": "AI Agent",
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.6,
+      "position": [220, 0]
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-1.5-flash",
+        "options": {}
+      },
+      "id": "gemini-model-design",
+      "name": "Google Gemini Chat Model",
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [80, 250]
+    },
+    {
+      "parameters": {
+        "sessionIdKey": "sessionId"
+      },
+      "id": "memory-simple-design",
+      "name": "Window Buffer Memory",
+      "type": "@n8n/n8n-nodes-langchain.memoryWindowBuffer",
+      "typeVersion": 1.2,
+      "position": [240, 250]
+    },
+    {
+      "parameters": {},
+      "id": "wikipedia-tool-design",
+      "name": "Wikipedia",
+      "type": "@n8n/n8n-nodes-langchain.toolWikipedia",
+      "typeVersion": 1,
+      "position": [400, 250]
+    },
+    {
+      "parameters": {},
+      "id": "calculator-tool-design",
+      "name": "Calculator",
+      "type": "@n8n/n8n-nodes-langchain.toolCalculator",
+      "typeVersion": 1,
+      "position": [520, 250]
+    }
+  ],
+  "connections": {
+    "When Chat Message Received": {
+      "main": [[{ "node": "AI Agent", "type": "main", "index": 0 }]]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [[{ "node": "AI Agent", "type": "ai_languageModel", "index": 0 }]]
+    },
+    "Window Buffer Memory": {
+      "ai_memory": [[{ "node": "AI Agent", "type": "ai_memory", "index": 0 }]]
+    },
+    "Wikipedia": {
+      "ai_tool": [[{ "node": "AI Agent", "type": "ai_tool", "index": 0 }]]
+    },
+    "Calculator": {
+      "ai_tool": [[{ "node": "AI Agent", "type": "ai_tool", "index": 0 }]]
+    }
+  }
+}

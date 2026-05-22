@@ -25,6 +25,10 @@ O objetivo deste projeto é fornecer recursos práticos e exemplos de código pa
   - **Google AI Studio**: Conexão com a API do Gemini para análise de dados de segurança.
   - **Prompt Engineering**: Scripts iniciais para interação com o modelo LLM.
 
+- **aula-6/**: Orquestração com n8n e Agentes AI
+  - **AI Agent**: Agente com ferramentas de busca e cálculo.
+  - **Security Investigation**: Agente para análise de reputação (VirusTotal/URLScan).
+
 ## Tecnologias
 
 - Python 3

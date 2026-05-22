@@ -1,11 +1,11 @@
+# Chaves de API e Variáveis de Ambiente
 .env
-__pycache__/
-.venv/
-venv/
-*.pyc
-.vscode/
 
-# Ignorar artefatos gerados (opcional, remova se quiser guardar os relatórios no Git)
-*.png
-*.json
-relatorio_executivo.md
+# Ambientes Virtuais
+venv/
+.venv/
+env/
+
+# Arquivos do Sistema e Cache
+__pycache__/
+.DS_Store

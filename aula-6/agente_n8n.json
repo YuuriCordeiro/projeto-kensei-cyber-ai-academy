@@ -1,0 +1,122 @@
+{
+  "nodes": [
+    {
+      "parameters": {
+        "options": {}
+      },
+      "id": "58c2b744-8e34-4b5b-9f8e-1234567890ab",
+      "name": "When Chat Message Received",
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.1,
+      "position": [0, 0]
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "assistente generalista que usa ferramentas quando precisa.",
+        "options": {
+          "systemMessage": "assistente generalista que usa ferramentas quando precisa."
+        }
+      },
+      "id": "a1b2c3d4-e5f6-4a5b-bc6d-7e8f90123456",
+      "name": "AI Agent",
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.6,
+      "position": [220, 0]
+    },
+    {
+      "parameters": {},
+      "id": "c1d2e3f4-g5h6-4i7j-8k9l-m0n1o2p3q4r5",
+      "name": "Calculator",
+      "type": "@n8n/n8n-nodes-langchain.toolCalculator",
+      "typeVersion": 1,
+      "position": [400, 250]
+    },
+    {
+      "parameters": {},
+      "id": "w1x2y3z4-a5b6-4c7d-8e9f-g0h1i2j3k4l5",
+      "name": "Wikipedia",
+      "type": "@n8n/n8n-nodes-langchain.toolWikipedia",
+      "typeVersion": 1,
+      "position": [520, 250]
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-1.5-flash",
+        "options": {}
+      },
+      "id": "g1e2m3i4-n5i6-4a7s-8h9l-m0o1d2e3l4p5",
+      "name": "Google Gemini Chat Model",
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [80, 250]
+    },
+    {
+      "parameters": {
+        "sessionIdKey": "sessionId"
+      },
+      "id": "m1e2m3o4-r5y6-4b7u-8f9f-e0r1h2e3r4e5",
+      "name": "Window Buffer Memory",
+      "type": "@n8n/n8n-nodes-langchain.memoryWindowBuffer",
+      "typeVersion": 1.2,
+      "position": [240, 250]
+    }
+  ],
+  "connections": {
+    "When Chat Message Received": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Calculator": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wikipedia": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Window Buffer Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  }
+}

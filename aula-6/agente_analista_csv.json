@@ -1,0 +1,182 @@
+{
+  "nodes": [
+    {
+      "parameters": {
+        "updates": [
+          "message"
+        ],
+        "additionalFields": {}
+      },
+      "id": "telegram-trigger-csv-analyst",
+      "name": "Telegram Trigger",
+      "type": "@n8n/n8n-nodes-base.telegramTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        0,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "values": {
+          "string": [
+            {
+              "name": "csv_base64",
+              "value": "={{ $json.message.document ? $binary.data.data : \"\" }}"
+            },
+            {
+              "name": "user_question",
+              "value": "={{ $json.message.text }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "prepare-inputs-for-agent",
+      "name": "Prepare Inputs",
+      "type": "@n8n/n8n-nodes-base.set",
+      "typeVersion": 1,
+      "position": [
+        220,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "Você é um analista de dados especializado em CSV. Utilize a ferramenta pandas_analyzer para processar os dados e a Calculator para cálculos matemáticos. Não peça ao usuário o conteúdo do arquivo novamente, ele já está disponível para a ferramenta.",
+        "options": {
+          "systemMessage": "Você é um analista de dados especializado em CSV. Utilize a ferramenta pandas_analyzer para processar os dados e a Calculator para cálculos matemáticos. Não peça ao usuário o conteúdo do arquivo novamente, ele já está disponível para a ferramenta."
+        }
+      },
+      "id": "ai-agent-csv",
+      "name": "AI Agent",
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.6,
+      "position": [
+        440,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-1.5-flash",
+        "options": {}
+      },
+      "id": "gemini-model-csv",
+      "name": "Google Gemini Chat Model",
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        280,
+        220
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "memory-csv",
+      "name": "Window Buffer Memory",
+      "type": "@n8n/n8n-nodes-langchain.memoryWindowBuffer",
+      "typeVersion": 1.2,
+      "position": [
+        440,
+        220
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "calculator-tool-csv",
+      "name": "Calculator",
+      "type": "@n8n/n8n-nodes-langchain.toolCalculator",
+      "typeVersion": 1,
+      "position": [
+        600,
+        220
+      ]
+    },
+    {
+      "parameters": {
+        "name": "pandas_analyzer",
+        "description": "Executa análise de dados no CSV carregado. Entrada: pergunta do usuário.",
+        "language": "python",
+        "code": "import pandas as pd\nimport io\nimport base64\n\n# Acessando dados do nó Set anterior para pegar o CSV codificado\ncsv_b64 = _inputs['Prepare Inputs']['json']['csv_base64']\n\nif not csv_b64:\n    return \"Erro: Nenhum arquivo CSV foi detectado no anexo.\"\n\ntry:\n    # Decodifica e carrega o DataFrame\n    decoded = base64.b64decode(csv_b64).decode('utf-8')\n    df = pd.read_csv(io.StringIO(decoded))\n    \n    # Retorna metadados e amostra para o Agente raciocinar sobre a resposta final\n    return f\"Colunas: {list(df.columns)}. Info: {df.shape}. Amostra:\\n{df.head(3).to_string()}\"\nexcept Exception as e:\n    return f\"Erro ao processar CSV com Pandas: {str(e)}\""
+      },
+      "id": "pandas-tool-csv",
+      "name": "Code Tool",
+      "type": "@n8n/n8n-nodes-langchain.toolCode",
+      "typeVersion": 1,
+      "position": [
+        740,
+        220
+      ]
+    }
+  ],
+  "connections": {
+    "Telegram Trigger": {
+      "main": [
+        [
+          {
+            "node": "Prepare Inputs",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Prepare Inputs": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Window Buffer Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Calculator": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code Tool": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  }
+}
