@@ -1,13 +1,24 @@
 {
     "teste.txt": {
-        "resumo": "Esta é uma saudação comum em inglês, usada para desejar um bom início de dia a alguém. A frase transmite um sentimento positivo e educado, estabelecendo um tom amigável para a interação. É um exemplo clássico de comunicação otimista e socialmente aceitável.",
+        "resumo": "A frase \"good morning\" é uma saudação comum utilizada para cumprimentar alguém no início do dia. Ela é amplamente reconhecida como uma expressão de cortesia e otimismo. Esta saudação simples transmite um tom amigável e acolhedor.",
         "sentimento": "positivo",
         "palavras_chave": [
             "good",
             "morning",
             "saudação",
-            "dia",
+            "cortesia",
             "positivo"
+        ]
+    },
+    "teste_pt.txt": {
+        "resumo": "O texto fornecido detalha a língua original de uma expressão. Ele informa que a frase 'Bom dia' é uma tradução do inglês para o português do Brasil. Esta é uma saudação matinal comum e universalmente compreendida.",
+        "sentimento": "positivo",
+        "palavras_chave": [
+            "Idioma",
+            "Inglês",
+            "Tradução",
+            "PT-BR",
+            "Bom dia"
         ]
     }
 }
